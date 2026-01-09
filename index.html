@@ -2,402 +2,256 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TowMes - Global Athan App</title>
-    
-    <link rel="manifest" href="data:application/manifest+json,{'name':'TowMes','short_name':'TowMes','start_url':'.','display':'standalone','background_color':'#0f172a','theme_color':'#fbbf24'}">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TowMes - Global Athan</title>
     
     <style>
-        /* CSS Root Variables & Base Styling */
         :root {
             --gold: #fbbf24;
-            --gold-glow: rgba(251, 191, 36, 0.4);
+            --red-bright: #ff3b3b; /* اللون الأحمر الذي طلبته */
             --white: #f8fafc;
-            --dark-blue: #0f172a;
-            --glass-bg: rgba(30, 41, 59, 0.75);
-            --prayer-bg: rgba(255, 255, 255, 0.08);
+            --dark-bg: #0f172a;
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        /* منع الاهتزاز والحركة الجانبية */
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden; /* يمنع التمرير والاهتزاز */
+            background: #000; /* خلفية أساسية سوداء لمنع الوميض */
+        }
 
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            width: 100vw;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            color: var(--white);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
             position: relative;
         }
 
-        /* --- Animated Background Elements --- */
-        .sky-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
+        /* --- خلفية السحاب الثابتة بصرياً (تحرك داخلي فقط) --- */
+        .sky-fix {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
         }
-
         .cloud {
-            position: absolute;
-            width: 300px;
-            opacity: 0.2;
-            filter: blur(2px);
+            position: absolute; width: 250px; opacity: 0.15;
             animation: drift linear infinite;
         }
-
         @keyframes drift {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(100vw); }
+            from { transform: translateX(110vw); }
+            to { transform: translateX(-300px); }
         }
 
         .moon {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            width: 80px;
-            filter: drop-shadow(0 0 20px var(--gold));
-            z-index: 1;
-            animation: moonGlow 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes moonGlow {
-            from { filter: drop-shadow(0 0 10px var(--gold)); opacity: 0.7; }
-            to { filter: drop-shadow(0 0 25px var(--gold)); opacity: 0.9; }
+            position: absolute; top: 20px; right: 20px; width: 60px;
+            filter: drop-shadow(0 0 15px var(--gold)); z-index: 1;
         }
 
         .kaaba-bg {
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 600px;
-            opacity: 0.18;
-            z-index: 0;
-            pointer-events: none;
+            position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 100%; max-width: 450px;
+            opacity: 0.2; z-index: 0; pointer-events: none;
         }
 
-        /* --- Main Application Card (Glassmorphism) --- */
+        /* --- حاوية التطبيق --- */
         .app-card {
-            position: relative;
-            z-index: 10;
-            width: 92%;
-            max-width: 420px;
-            background: var(--glass-bg);
+            position: relative; z-index: 10;
+            width: 90%; max-width: 400px;
+            background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 40px;
-            padding: 2.5rem 1.5rem;
-            border: 1px solid rgba(251, 191, 36, 0.25);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            padding: 2rem 1.5rem;
+            border: 1px solid rgba(255, 59, 59, 0.3); /* حدود حمراء خفيفة */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
             text-align: center;
-            animation: cardEntry 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        @keyframes cardEntry {
-            from { opacity: 0; transform: scale(0.9) translateY(30px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .brand-header {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--gold);
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px var(--gold-glow);
+        .brand-name {
+            font-size: 2rem; font-weight: 900;
+            color: var(--red-bright); /* اسم البرنامج بالأحمر */
+            letter-spacing: 3px; margin-bottom: 25px; /* مساحة قبل الساعة */
         }
 
         .digital-clock {
-            font-size: 4rem;
-            font-weight: 900;
+            font-size: 3.5rem; font-weight: bold;
             color: var(--white);
-            margin: 10px 0;
-            font-variant-numeric: tabular-nums;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            margin-top: 10px; /* إنزال الساعة قليلاً */
+            text-shadow: 0 0 20px rgba(255, 59, 59, 0.4);
         }
 
-        .date-display {
-            font-size: 1.1rem;
-            color: #94a3b8;
-            margin-bottom: 25px;
-            font-weight: 500;
+        .date-text {
+            font-size: 1rem; color: #94a3b8;
+            margin-bottom: 20px;
         }
 
-        /* --- Prayer Timings Grid --- */
-        .prayer-container {
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        /* --- قائمة الصلاة باللون الأحمر --- */
+        .prayer-list {
+            display: flex; flex-direction: column; gap: 10px;
         }
 
-        .prayer-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-            background: var(--prayer-bg);
-            border-radius: 20px;
-            border: 1px solid transparent;
+        .prayer-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 20px; background: rgba(255,255,255,0.03);
+            border-radius: 15px; border: 1px solid transparent;
         }
 
-        .prayer-item.active {
-            background: rgba(251, 191, 36, 0.12);
-            border-color: var(--gold);
-            transform: scale(1.02);
-            box-shadow: 0 0 20px var(--gold-glow);
+        .active-now {
+            border-color: var(--red-bright);
+            background: rgba(255, 59, 59, 0.1);
+            box-shadow: 0 0 15px rgba(255, 59, 59, 0.2);
         }
 
         .p-label {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            color: var(--red-bright); /* كلمات الصلاة بالأحمر */
+            font-weight: bold; font-size: 1.1rem;
+            display: flex; align-items: center; gap: 8px;
         }
-
-        .p-label .ar { font-size: 1.2rem; font-weight: bold; }
-        .p-label .en { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .p-label span { font-size: 0.75rem; opacity: 0.7; }
 
         .p-time {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--gold);
+            color: var(--white); font-weight: 800; font-size: 1.3rem;
         }
 
-        /* --- Controls & Selectors --- */
-        .controls {
-            margin-top: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
+        /* --- التحكم --- */
+        .controls-box { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        
         select {
-            width: 100%;
-            padding: 14px;
-            border-radius: 15px;
-            background: #1e293b;
-            color: white;
-            border: 1px solid #334155;
-            font-size: 1rem;
-            cursor: pointer;
-            appearance: none;
-            outline: none;
-            text-align: center;
+            width: 100%; padding: 12px; border-radius: 12px;
+            background: #1e293b; color: white; border: 1px solid var(--red-bright);
+            outline: none; text-align: center;
         }
 
-        button.action-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 18px;
-            border: none;
-            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-            color: #0f172a;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+        button.main-btn {
+            width: 100%; padding: 15px; border-radius: 15px; border: none;
+            background: var(--red-bright); color: white;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 59, 59, 0.4);
         }
 
-        button.action-btn:active { transform: scale(0.96); }
-
-        .info-bar {
-            margin-top: 15px;
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-
-        .indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-left: 8px;
-            background: #ef4444;
-        }
-
-        .indicator.on { background: #10b981; box-shadow: 0 0 10px #10b981; }
-
+        .footer-info { font-size: 0.7rem; color: #64748b; margin-top: 15px; }
     </style>
 </head>
-<body onclick="globalActivate()">
+<body onclick="activateSystem()">
 
-    <div class="sky-layer" id="clouds"></div>
-    <img src="https://cdn-icons-png.flaticon.com/512/1823/1823330.png" class="moon" alt="Moon">
-    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba-bg" alt="Kaaba">
+    <div class="sky-fix" id="cloud-layer"></div>
+    <img src="https://cdn-icons-png.flaticon.com/512/1823/1823330.png" class="moon">
+    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba-bg">
 
     <div class="app-card">
-        <div class="brand-header">TowMes</div>
-        <div class="digital-clock" id="main-clock">00:00:00</div>
-        <div class="date-display" id="full-date">جاري المزامنة...</div>
+        <div class="brand-name">TowMes</div>
+        <div class="digital-clock" id="clock-txt">00:00:00</div>
+        <div class="date-text" id="date-txt">جاري المزامنة...</div>
 
-        <div class="prayer-container" id="prayer-grid">
+        <div class="prayer-list" id="prayer-grid">
             </div>
 
-        <div class="controls">
-            <select id="moazin-picker" onchange="updateAudio()">
-                <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">الشيخ عبد الباسط عبد الصمد</option>
-                <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">الشيخ محمد صديق المنشاوي</option>
-                <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">الشيخ مشاري العفاسي</option>
-                <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">الشيخ سعد الغامدي</option>
-                <option value="https://www.islamcan.com/audio/adhan/azan6.mp3">الشيخ عمر الكزبري</option>
+        <div class="controls-box">
+            <select id="moazin-select" onchange="changeVoice()">
+                <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">عبد الباسط عبد الصمد</option>
+                <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">محمد صديق المنشاوي</option>
+                <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">مشاري العفاسي</option>
+                <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">سعد الغامدي</option>
+                <option value="https://www.islamcan.com/audio/adhan/azan6.mp3">عمر الكزبري</option>
             </select>
 
-            <select id="calc-method" onchange="refreshLocation()">
-                <option value="4">أم القرى (مكة المكرمة)</option>
-                <option value="3">الهيئة المصرية العامة للمساحة</option>
-                <option value="2">الجمعية الإسلامية لأمريكا الشمالية</option>
-                <option value="1">جامعة العلوم الإسلامية بكراتشي</option>
-                <option value="5">رابطة العالم الإسلامي</option>
-            </select>
-
-            <button class="action-btn" id="activate-btn">تفعيل الأذان التلقائي / ACTIVATE</button>
+            <button class="main-btn" id="act-btn">تفعيل الأذان / ACTIVATE</button>
         </div>
 
-        <div class="info-bar">
-            <span id="audio-status">الصوت معطل</span>
-            <span class="indicator" id="status-dot"></span>
-            <div id="geo-info" style="margin-top: 5px; font-size: 0.7rem;">تحديد الموقع...</div>
-        </div>
+        <div class="footer-info" id="loc-status">تحديد الموقع العالمي...</div>
     </div>
 
     <script>
-        // --- Core Application Logic ---
-        let athanPlayer = new Audio();
-        let prayerTimings = {};
-        let systemActive = false;
-        let lastPlayed = "";
+        let audioPlayer = new Audio();
+        let timings = {};
+        let isSystemReady = false;
 
-        // Cloud Generator
-        function createClouds() {
-            const container = document.getElementById('clouds');
-            for(let i=0; i<6; i++) {
+        // توليد سحاب بدون اهتزاز الصفحة
+        function spawnClouds() {
+            const layer = document.getElementById('cloud-layer');
+            for(let i=0; i<5; i++) {
                 const img = document.createElement('img');
                 img.src = "https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png";
                 img.className = 'cloud';
-                img.style.top = Math.random() * 60 + "%";
-                img.style.animationDuration = (Math.random() * 30 + 30) + "s";
-                img.style.animationDelay = (Math.random() * 20) + "s";
-                container.appendChild(img);
+                img.style.top = (i * 20) + "%";
+                img.style.animationDuration = (20 + Math.random() * 20) + "s";
+                img.style.animationDelay = (i * 2) + "s";
+                layer.appendChild(img);
             }
         }
 
-        // Location & API
-        async function refreshLocation() {
+        async function init() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    pos => getPrayerData(pos.coords.latitude, pos.coords.longitude),
-                    () => getPrayerData(21.4225, 39.8262) // Fallback to Mecca
+                    p => fetchAPI(p.coords.latitude, p.coords.longitude),
+                    () => fetchAPI(21.42, 39.82)
                 );
             }
         }
 
-        async function getPrayerData(lat, lng) {
-            const method = document.getElementById('calc-method').value;
-            document.getElementById('geo-info').innerText = `إحداثيات: ${lat.toFixed(3)}, ${lng.toFixed(3)}`;
-            
-            try {
-                const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${method}`);
-                const result = await response.json();
-                prayerTimings = result.data.timings;
-                
-                // Date Display
-                const d = result.data.date;
-                document.getElementById('full-date').innerText = `${d.readable} | ${d.hijri.day} ${d.hijri.month.ar}`;
-                
-                renderPrayers();
-            } catch (e) {
-                console.error("API Error");
-            }
+        async function fetchAPI(lat, lng) {
+            document.getElementById('loc-status').innerText = `Location: ${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+            const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
+            const json = await res.json();
+            timings = json.data.timings;
+            document.getElementById('date-txt').innerText = json.data.date.readable;
+            drawUI();
         }
 
-        function renderPrayers() {
-            const pMap = {
-                'Fajr': 'الفجر', 'Dhuhr': 'الظهر', 'Asr': 'العصر', 
-                'Maghrib': 'المغرب', 'Isha': 'العشاء'
-            };
+        function drawUI() {
+            const map = {'Fajr':'الفجر', 'Dhuhr':'الظهر', 'Asr':'العصر', 'Maghrib':'المغرب', 'Isha':'العشاء'};
             const grid = document.getElementById('prayer-grid');
             grid.innerHTML = '';
-
-            Object.keys(pMap).forEach(key => {
-                const time = prayerTimings[key];
-                const div = document.createElement('div');
-                div.className = 'prayer-item';
-                div.id = `prayer-${key}`;
-                div.innerHTML = `
-                    <div class="p-label">
-                        <span class="ar">${pMap[key]}</span>
-                        <span class="en">${key}</span>
+            Object.keys(map).forEach(key => {
+                grid.innerHTML += `
+                    <div class="prayer-row" id="row-${key}">
+                        <div class="p-label">${map[key]} <span>${key}</span></div>
+                        <div class="p-time">${timings[key]}</div>
                     </div>
-                    <div class="p-time">${time}</div>
                 `;
-                grid.appendChild(div);
             });
         }
 
-        // Audio Management
-        function globalActivate() {
-            if(!systemActive) {
-                updateAudio();
-                athanPlayer.play().then(() => {
-                    athanPlayer.pause();
-                    systemActive = true;
-                    document.getElementById('status-dot').classList.add('on');
-                    document.getElementById('audio-status').innerText = "النظام مفعل";
-                    document.getElementById('activate-btn').style.display = "none";
-                }).catch(err => console.log("User interaction required"));
+        function activateSystem() {
+            if(!isSystemReady) {
+                audioPlayer.src = document.getElementById('moazin-select').value;
+                audioPlayer.play().then(() => {
+                    audioPlayer.pause();
+                    isSystemReady = true;
+                    document.getElementById('act-btn').innerText = "✅ النظام يعمل";
+                    document.getElementById('act-btn').style.background = "#10b981";
+                });
             }
         }
 
-        function updateAudio() {
-            athanPlayer.src = document.getElementById('moazin-picker').value;
-            athanPlayer.load();
+        function changeVoice() {
+            audioPlayer.src = document.getElementById('moazin-select').value;
+            audioPlayer.load();
         }
 
-        // Real-time Sync
-        function tick() {
+        function runClock() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            const hhmm = timeString.substring(0, 5);
-            
-            document.getElementById('main-clock').innerText = timeString;
+            const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('clock-txt').innerText = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
 
-            // Highlight & Play Logic
             ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
-                const target = prayerTimings[p];
-                const row = document.getElementById(`prayer-${p}`);
-                
-                if(target === hhmm) {
-                    if(row) row.classList.add('active');
-                    if(systemActive && lastPlayed !== p) {
-                        athanPlayer.play();
-                        lastPlayed = p;
+                const row = document.getElementById(`row-${p}`);
+                if(timings[p] === timeStr) {
+                    if(row) row.classList.add('active-now');
+                    if(isSystemReady) {
+                        audioPlayer.play();
+                        isSystemReady = false; 
+                        setTimeout(() => isSystemReady = true, 61000);
                     }
                 } else {
-                    if(row) row.classList.remove('active');
+                    if(row) row.classList.remove('active-now');
                 }
             });
-
-            // Reset played status at midnight
-            if(hhmm === "00:00") lastPlayed = "";
         }
 
-        // Boot
-        window.onload = () => {
-            createClouds();
-            refreshLocation();
-            setInterval(tick, 1000);
-        };
-
+        spawnClouds();
+        init();
+        setInterval(runClock, 1000);
     </script>
 </body>
 </html>
