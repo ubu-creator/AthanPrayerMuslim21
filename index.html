@@ -1,377 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zoro 2 - Universal Athan App</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/e/ea/Mosque_icon.png" type="image/png">
+    <title>TowMes - Global Athan</title>
+    <link rel="manifest" href="data:application/manifest+json,{'name':'TowMes','short_name':'TowMes','start_url':'.','display':'standalone'}" />
+    
     <style>
-        /* Global & Theme Variables */
-        :root {
-            --bg-dark: #0f172a;
-            --card-dark: #1e293b;
-            --gold: #fbbf24;
-            --white: #f8fafc;
-            --gray-text: #94a3b8;
-        }
-
-        /* Body & Background Styling */
+        :root { --gold: #fbbf24; --white: #f8fafc; --glass: rgba(30, 41, 59, 0.8); }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--white);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden; /* For animations */
-            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
+            overflow: hidden; position: relative; color: white;
         }
 
-        /* Background Elements - Cloud, Crescent, Kaaba */
-        .background-elements {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: moveClouds 20s linear infinite;
-        }
-        .cloud:nth-child(1) { width: 150px; height: 100px; top: 10%; left: -20%; animation-delay: 0s; }
-        .cloud:nth-child(2) { width: 200px; height: 120px; top: 30%; left: -30%; animation-delay: 5s; }
-        .cloud:nth-child(3) { width: 180px; height: 110px; top: 50%; left: -10%; animation-delay: 10s; }
-        @keyframes moveClouds {
-            from { transform: translateX(-100vw); }
-            to { transform: translateX(200vw); }
-        }
-        .crescent {
-            position: absolute;
-            width: 80px; height: 80px;
-            background: transparent;
-            border-radius: 50%;
-            box-shadow: 15px 10px 0 0 var(--gold);
-            top: 5%; right: 10%;
-            transform: rotate(-30deg);
-            opacity: 0.8;
-        }
-        .kaaba-img {
-            position: absolute;
-            bottom: -50px; /* Adjust to be partially off-screen */
-            right: 0px;
-            width: 250px; /* Adjust size as needed */
-            opacity: 0.2;
-            z-index: 0;
-            user-select: none; /* Make image not selectable */
-            pointer-events: none; /* Make image not interactive */
-        }
+        /* Moving Background Elements */
+        .cloud-env { position: absolute; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .cloud { position: absolute; width: 250px; opacity: 0.2; animation: move 40s linear infinite; }
+        @keyframes move { from { left: -300px; } to { left: 100vw; } }
+        .moon { position: absolute; top: 30px; left: 30px; width: 60px; filter: drop-shadow(0 0 10px var(--gold)); opacity: 0.8; }
+        .kaaba { position: absolute; bottom: -20px; width: 100%; max-width: 450px; opacity: 0.15; z-index: 0; pointer-events: none; }
 
-
-        /* App Container & Animation */
-        .container {
-            position: relative;
-            background: var(--card-dark);
-            padding: 2.5rem;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            border: 1px solid #334155;
-            animation: fadeIn 1s ease-out;
-            z-index: 1; /* Keep content above background */
+        /* Main App Card */
+        .app-card {
+            position: relative; background: var(--glass); backdrop-filter: blur(12px);
+            padding: 2rem; border-radius: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            width: 88%; max-width: 380px; text-align: center; z-index: 10;
+            border: 1px solid rgba(251, 191, 36, 0.2);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Clock & Date */
-        .clock { 
-            font-size: 3rem; 
-            font-weight: bold; 
-            color: var(--gold); 
-            margin-bottom: 5px; 
-            letter-spacing: 2px;
-        }
-        .date { 
-            margin-bottom: 25px; 
-            color: var(--gray-text); 
-            font-size: 1rem;
-        }
-
-        /* Prayer Rows */
-        .prayer-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 15px;
-            margin: 8px 0;
-            background: #334155;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        .prayer-row:hover { transform: translateY(-3px); background: #475569; }
-        .prayer-name { font-weight: 600; font-size: 1.1rem; }
-        .prayer-time { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
+        .brand { font-size: 1.5rem; color: var(--gold); font-weight: bold; margin-bottom: 10px; letter-spacing: 2px; }
+        .clock { font-size: 3.5rem; font-weight: bold; color: var(--gold); margin: 5px 0; }
         
-        /* Active Prayer Highlight */
-        .active-prayer {
-            border: 2px solid var(--gold);
-            animation: pulse 2s infinite;
-            background: #475569;
+        /* Prayer List Styling */
+        .prayer-list { margin: 20px 0; direction: rtl; }
+        .prayer-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.05);
+            border-radius: 12px; transition: 0.3s;
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.6); }
-            70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
-        }
+        .active { border: 1.5px solid var(--gold); background: rgba(251, 191, 36, 0.15); box-shadow: 0 0 15px rgba(251, 191, 36, 0.3); }
+        .p-name { font-weight: bold; }
+        .p-name span { font-size: 0.8rem; color: #94a3b8; margin-right: 5px; }
 
-        /* Buttons & Controls */
-        button {
-            background: var(--gold);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 20px;
-            width: 100%;
-            color: var(--bg-dark); /* Dark text on gold button */
-            transition: background 0.3s ease;
+        /* Controls */
+        select, button {
+            width: 100%; padding: 12px; margin-top: 10px; border-radius: 12px;
+            border: none; font-weight: bold; cursor: pointer;
         }
-        button:hover { background: #d97706; }
-        .status { font-size: 0.8rem; margin-top: 10px; color: var(--gray-text); }
-        .settings-control {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
-        .settings-control select {
-            background: #334155;
-            color: var(--white);
-            border: 1px solid #475569;
-            padding: 8px;
-            border-radius: 5px;
-            width: 60%;
-        }
-        .settings-control label {
-            width: 35%;
-            text-align: left;
-        }
+        select { background: #334155; color: white; font-size: 0.9rem; }
+        button { background: var(--gold); color: #0f172a; font-size: 1rem; transition: 0.2s; }
+        button:active { transform: scale(0.98); }
+        .status-text { font-size: 0.75rem; color: #94a3b8; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="background-elements">
-    <div class="cloud"></div>
-    <div class="cloud"></div>
-    <div class="cloud"></div>
-    <div class="crescent"></div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Kaaba_by_Muhammad_Mahdi_Karim.png" alt="Kaaba" class="kaaba-img">
-</div>
-
-<div class="container">
-    <div class="clock" id="clock">00:00:00</div>
-    <div class="date" id="date">Loading Date...</div>
+    <div class="cloud-env">
+        <img src="https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png" class="cloud" style="top:10%; animation-duration: 45s;">
+        <img src="https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png" class="cloud" style="top:30%; animation-duration: 30s;">
+    </div>
     
-    <div id="prayers">
-        </div>
+    <img src="https://cdn-icons-png.flaticon.com/512/1823/1823330.png" class="moon">
+    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba">
 
-    <div class="settings-control">
-        <label for="athan-sound-select">Athan Voice:</label>
-        <select id="athan-sound-select" onchange="changeAthanSound()">
-            <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">Abdul Basit</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">Mishary Rashid</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">Al-Ghamdi</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">Al-Minshawi</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan6.mp3">Omar Al-Kazabri</option>
+    <div class="app-card">
+        <div class="brand">TowMes</div>
+        <div class="clock" id="time">00:00</div>
+        <div id="date" style="color: #94a3b8; font-size: 0.9rem;">-- -- ----</div>
+
+        <div class="prayer-list" id="list">
+            </div>
+
+        <select id="moazin">
+            <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">عبد الباسط عبد الصمد</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">محمد صديق المنشاوي</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">مشاري العفاسي</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">سعد الغامدي</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan6.mp3">عمر الكزبري</option>
         </select>
+
+        <button onclick="unlockAudio()">تفعيل الأذان التلقائي / Activate</button>
+        <div class="status-text" id="status">الصوت متوقف | Audio Muted</div>
     </div>
 
-    <div class="settings-control">
-        <label for="calc-method-select">Calculation Method:</label>
-        <select id="calc-method-select" onchange="changeCalcMethod()">
-            <option value="2">Muslim World League</option>
-            <option value="4">Umm Al-Qura (Mecca)</option>
-            <option value="5">Egyptian General Authority</option>
-            <option value="1">University of Islamic Sciences (Karachi)</option>
-            <option value="3">Islamic Society of North America</option>
-            <option value="7">Tehran University</option>
-            <option value="8">Gulf Region</option>
-            <option value="9">Kuwait</option>
-            <option value="10">Qatar</option>
-            <option value="11">Majlis Ugama Islam Singapura</option>
-            <option value="12">Union of Islamic Organisations of France</option>
-            <option value="13">Diyanet İşleri Başkanlığı</option>
-            <option value="14">Russia</option>
-        </select>
-    </div>
+    <script>
+        let athan = new Audio();
+        let prayers = {};
+        let canPlay = false;
 
-    <button onclick="activateAudio()">Activate Athan Audio</button>
-    <div class="status" id="status">Audio is currently muted</div>
-    <div class="status" id="location">Detecting Location...</div>
-</div>
-
-<script>
-    // Athan Audio & Config
-    let athanAudio = new Audio(document.getElementById('athan-sound-select').value);
-    let prayerTimings = {};
-    let audioReady = false;
-    let currentCalcMethod = document.getElementById('calc-method-select').value;
-
-    // Mecca as fallback location
-    const defaultLocation = { lat: 21.4225, lng: 39.8262 };
-
-    // Update Clock & Check Athan
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('clock').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit', hour12: false});
-        const currentHHMM = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
-        checkAthan(currentHHMM);
-        highlightNext(now);
-    }
-
-    // Initialize the app: Get location then fetch prayer times
-    async function initApp() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                pos => fetchPrayers(pos.coords.latitude, pos.coords.longitude),
-                () => { // Geolocation denied or error
-                    console.warn("Geolocation denied or unavailable. Using default location (Mecca).");
-                    fetchPrayers(defaultLocation.lat, defaultLocation.lng);
-                    document.getElementById('location').innerText = "Using Default Location (Mecca)";
-                }
-            );
-        } else { // Geolocation not supported
-            console.warn("Geolocation not supported by this browser. Using default location (Mecca).");
-            fetchPrayers(defaultLocation.lat, defaultLocation.lng);
-            document.getElementById('location').innerText = "Geolocation not supported. Using Default Location (Mecca).";
+        async function start() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    p => loadTimes(p.coords.latitude, p.coords.longitude),
+                    () => loadTimes(21.42, 39.82) // Fallback to Mecca
+                );
+            }
         }
-    }
 
-    // Fetch prayer times from Aladhan API
-    async function fetchPrayers(lat, lng) {
-        document.getElementById('location').innerText = `Location: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-        try {
-            const apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${currentCalcMethod}`;
-            const res = await fetch(apiUrl);
+        async function loadTimes(lat, lng) {
+            const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
             const data = await res.json();
-            
-            if (data.code === 200) {
-                prayerTimings = data.data.timings;
-                document.getElementById('date').innerText = data.data.date.readable;
-                renderPrayersUI();
-                console.log("Prayer timings fetched. Method:", data.data.meta.method.name);
-            } else {
-                console.error("Error fetching prayer times:", data.data);
-                document.getElementById('location').innerText = "Failed to fetch prayer times. Error Code: " + data.code;
-            }
-        } catch (error) {
-            console.error("Network error during prayer times fetch:", error);
-            document.getElementById('location').innerText = "Network error. Please check your internet connection.";
+            prayers = data.data.timings;
+            document.getElementById('date').innerText = data.data.date.readable;
+            displayUI();
         }
-    }
 
-    // Render prayer times in the UI
-    function renderPrayersUI() {
-        const list = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']; // Main prayers
-        const container = document.getElementById('prayers');
-        container.innerHTML = '';
-        list.forEach(p => {
-            container.innerHTML += `
-                <div class="prayer-row" id="row-${p.toLowerCase()}">
-                    <span>${p}</span>
-                    <span class="prayer-time">${prayerTimings[p] || '--:--'}</span>
-                </div>
-            `;
-        });
-    }
-
-    // Highlight the next upcoming prayer
-    function highlightNext(now) {
-        const list = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-        document.querySelectorAll('.prayer-row').forEach(r => r.classList.remove('active-prayer'));
-        
-        let foundNext = false;
-        for (let p of list) {
-            if (!prayerTimings[p]) continue; // Skip if timing not available
-            const [h, m] = prayerTimings[p].split(':');
-            const pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
-            
-            if (now < pDate) {
-                document.getElementById(`row-${p.toLowerCase()}`).classList.add('active-prayer');
-                foundNext = true;
-                break;
-            }
+        function displayUI() {
+            const names = {
+                'Fajr': 'الفجر', 'Dhuhr': 'الظهر', 'Asr': 'العصر', 
+                'Maghrib': 'المغرب', 'Isha': 'العشاء'
+            };
+            const container = document.getElementById('list');
+            container.innerHTML = '';
+            ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
+                container.innerHTML += `
+                    <div class="prayer-item" id="p-${p}">
+                        <div class="p-name">${names[p]} <span>${p}</span></div>
+                        <div style="color:var(--gold); font-weight:bold;">${prayers[p]}</div>
+                    </div>
+                `;
+            });
         }
-        // If all prayers for today have passed, highlight Fajr of next day conceptually
-        if (!foundNext && list.length > 0) {
-            document.getElementById(`row-${list[0].toLowerCase()}`).classList.add('active-prayer');
+
+        function unlockAudio() {
+            athan.src = document.getElementById('moazin').value;
+            athan.play().then(() => {
+                athan.pause();
+                canPlay = true;
+                document.getElementById('status').innerText = "✅ النظام يعمل تلقائياً | Auto-Athan Ready";
+            });
         }
-    }
 
-    // Check if it's time for Athan and play
-    function checkAthan(nowTime) {
-        const list = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-        list.forEach(p => {
-            if (prayerTimings[p] === nowTime && audioReady) {
-                athanAudio.play();
-                console.log(`Athan played for ${p}`);
-            }
-        });
-    }
+        function sync() {
+            const now = new Date();
+            const nowTime = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('time').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
 
-    // User activates audio (due to browser autoplay policies)
-    function activateAudio() {
-        athanAudio.play().then(() => {
-            athanAudio.pause(); // Pause immediately after testing
-            audioReady = true;
-            document.getElementById('status').innerText = "✅ Athan Audio Activated. Will play automatically.";
-        }).catch(error => {
-            console.error("Audio play failed. User interaction might be required.", error);
-            document.getElementById('status').innerText = "⚠️ Audio activation failed. Please interact more with the page and try again.";
-        });
-    }
-
-    // Change Athan Sound
-    function changeAthanSound() {
-        athanAudio.src = document.getElementById('athan-sound-select').value;
-        athanAudio.load(); // Reload audio source
-        if (audioReady) {
-            document.getElementById('status').innerText = "Athan sound changed. Ready.";
+            ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
+                if (prayers[p] === nowTime && canPlay) {
+                    athan.play();
+                    canPlay = false; // Block repeat
+                    setTimeout(() => canPlay = true, 61000);
+                }
+                // Update active highlight
+                const el = document.getElementById(`p-${p}`);
+                if (prayers[p] === nowTime) el.classList.add('active');
+                else if (el) el.classList.remove('active');
+            });
         }
-    }
 
-    // Change Calculation Method
-    function changeCalcMethod() {
-        currentCalcMethod = document.getElementById('calc-method-select').value;
-        // Re-fetch prayers with new method
-        if (navigator.geolocation) {
-             navigator.geolocation.getCurrentPosition(
-                pos => fetchPrayers(pos.coords.latitude, pos.coords.longitude),
-                () => fetchPrayers(defaultLocation.lat, defaultLocation.lng) // Fallback
-            );
-        } else {
-             fetchPrayers(defaultLocation.lat, defaultLocation.lng); // Fallback
-        }
-        document.getElementById('status').innerText = "Calculation method updated.";
-    }
-
-
-    // Set intervals for clock update and daily prayer times refresh
-    setInterval(updateTime, 1000); // Update clock every second
-    setInterval(initApp, 1000 * 60 * 60 * 24); // Refresh prayer data daily
-    
-    window.onload = initApp; // Initial load
-</script>
-
+        setInterval(sync, 1000);
+        window.onload = start;
+    </script>
 </body>
 </html>
