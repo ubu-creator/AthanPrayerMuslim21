@@ -1,78 +1,73 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TowMes - Global Athan</title>
-    <link rel="manifest" href="data:application/manifest+json,{'name':'TowMes','short_name':'TowMes','start_url':'.','display':'standalone'}" />
-    
+    <link rel="manifest" href="data:application/manifest+json,{'name':'TowMes','short_name':'TowMes','display':'standalone'}" />
     <style>
-        :root { --gold: #fbbf24; --white: #f8fafc; --glass: rgba(30, 41, 59, 0.8); }
+        :root { --gold: #fbbf24; --white: #f8fafc; --blue-dark: #0f172a; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
             overflow: hidden; position: relative; color: white;
         }
 
-        /* Moving Background Elements */
-        .cloud-env { position: absolute; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-        .cloud { position: absolute; width: 250px; opacity: 0.2; animation: move 40s linear infinite; }
-        @keyframes move { from { left: -300px; } to { left: 100vw; } }
-        .moon { position: absolute; top: 30px; left: 30px; width: 60px; filter: drop-shadow(0 0 10px var(--gold)); opacity: 0.8; }
-        .kaaba { position: absolute; bottom: -20px; width: 100%; max-width: 450px; opacity: 0.15; z-index: 0; pointer-events: none; }
+        /* --- التحسينات البصرية (سحاب، هلال، كعبة) --- */
+        .cloud-container { position: absolute; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .cloud { position: absolute; width: 200px; opacity: 0.25; animation: moveClouds 35s linear infinite; }
+        @keyframes moveClouds { from { right: -250px; } to { right: 110vw; } }
+        .moon { position: absolute; top: 20px; right: 20px; width: 70px; filter: drop-shadow(0 0 15px var(--gold)); z-index: 1; }
+        .kaaba { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px; opacity: 0.2; z-index: 0; pointer-events: none; }
 
-        /* Main App Card */
-        .app-card {
-            position: relative; background: var(--glass); backdrop-filter: blur(12px);
-            padding: 2rem; border-radius: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.7);
-            width: 88%; max-width: 380px; text-align: center; z-index: 10;
-            border: 1px solid rgba(251, 191, 36, 0.2);
+        /* --- واجهة التطبيق الزجاجية --- */
+        .app-container {
+            position: relative; background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(15px);
+            padding: 2rem; border-radius: 35px; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            width: 90%; max-width: 400px; text-align: center; z-index: 10;
+            border: 1px solid rgba(251, 191, 36, 0.3);
         }
-        .brand { font-size: 1.5rem; color: var(--gold); font-weight: bold; margin-bottom: 10px; letter-spacing: 2px; }
-        .clock { font-size: 3.5rem; font-weight: bold; color: var(--gold); margin: 5px 0; }
-        
-        /* Prayer List Styling */
-        .prayer-list { margin: 20px 0; direction: rtl; }
-        .prayer-item {
+        .brand { font-size: 1.8rem; font-weight: bold; color: var(--gold); letter-spacing: 3px; margin-bottom: 5px; }
+        .clock { font-size: 3.8rem; font-weight: bold; color: var(--gold); text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
+        .date { font-size: 1rem; color: #94a3b8; margin-bottom: 20px; }
+
+        /* --- قائمة أوقات الصلاة (عربي + إنجليزي) --- */
+        .prayer-row {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 15px; margin: 8px 0; background: rgba(255,255,255,0.05);
-            border-radius: 12px; transition: 0.3s;
+            padding: 12px 20px; margin: 10px 0; background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px; border: 1px solid transparent; transition: 0.3s;
         }
-        .active { border: 1.5px solid var(--gold); background: rgba(251, 191, 36, 0.15); box-shadow: 0 0 15px rgba(251, 191, 36, 0.3); }
-        .p-name { font-weight: bold; }
-        .p-name span { font-size: 0.8rem; color: #94a3b8; margin-right: 5px; }
+        .active-prayer { border-color: var(--gold); background: rgba(251, 191, 36, 0.15); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); } }
+        .p-name { font-size: 1.1rem; font-weight: 600; }
+        .p-name span { font-size: 0.8rem; color: #64748b; margin-right: 8px; }
 
-        /* Controls */
-        select, button {
-            width: 100%; padding: 12px; margin-top: 10px; border-radius: 12px;
-            border: none; font-weight: bold; cursor: pointer;
-        }
-        select { background: #334155; color: white; font-size: 0.9rem; }
-        button { background: var(--gold); color: #0f172a; font-size: 1rem; transition: 0.2s; }
-        button:active { transform: scale(0.98); }
-        .status-text { font-size: 0.75rem; color: #94a3b8; margin-top: 10px; }
+        /* --- التحكم والإعدادات --- */
+        select, button { width: 100%; padding: 12px; margin-top: 10px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; }
+        select { background: #334155; color: white; outline: none; }
+        button { background: var(--gold); color: #0f172a; font-size: 1rem; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3); }
+        .status { font-size: 0.75rem; color: #94a3b8; margin-top: 12px; }
     </style>
 </head>
-<body>
+<body onclick="unlockAudio()">
 
-    <div class="cloud-env">
-        <img src="https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png" class="cloud" style="top:10%; animation-duration: 45s;">
-        <img src="https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png" class="cloud" style="top:30%; animation-duration: 30s;">
+    <div class="cloud-container">
+        <img src="https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png" class="cloud" style="top:5%; animation-duration: 40s;">
+        <img src="https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png" class="cloud" style="top:25%; animation-duration: 25s;">
     </div>
-    
-    <img src="https://cdn-icons-png.flaticon.com/512/1823/1823330.png" class="moon">
-    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba">
 
-    <div class="app-card">
+    <img src="https://cdn-icons-png.flaticon.com/512/1823/1823330.png" class="moon" alt="Crescent">
+    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba" alt="Kaaba">
+
+    <div class="app-container">
         <div class="brand">TowMes</div>
         <div class="clock" id="time">00:00</div>
-        <div id="date" style="color: #94a3b8; font-size: 0.9rem;">-- -- ----</div>
+        <div class="date" id="date">جاري التحميل...</div>
 
-        <div class="prayer-list" id="list">
-            </div>
+        <div id="prayer-list"></div>
 
-        <select id="moazin">
+        <select id="voice-select" onchange="updateAudioSource()">
             <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">عبد الباسط عبد الصمد</option>
             <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">محمد صديق المنشاوي</option>
             <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">مشاري العفاسي</option>
@@ -80,78 +75,95 @@
             <option value="https://www.islamcan.com/audio/adhan/azan6.mp3">عمر الكزبري</option>
         </select>
 
-        <button onclick="unlockAudio()">تفعيل الأذان التلقائي / Activate</button>
-        <div class="status-text" id="status">الصوت متوقف | Audio Muted</div>
+        <select id="method-select" onchange="initApp()" style="margin-top:5px;">
+            <option value="4">رابطة العالم الإسلامي (أم القرى)</option>
+            <option value="2">الجمعية الإسلامية لأمريكا الشمالية</option>
+            <option value="3">الهيئة المصرية العامة للمساحة</option>
+            <option value="1">جامعة العلوم الإسلامية بكراتشي</option>
+        </select>
+
+        <button id="btn-act">تفعيل الأذان التلقائي</button>
+        <div class="status" id="status">انقر في أي مكان لتفعيل الصوت</div>
+        <div class="status" id="loc-info" style="font-size:0.65rem">جاري تحديد الموقع...</div>
     </div>
 
     <script>
-        let athan = new Audio();
+        let audio = new Audio();
         let prayers = {};
-        let canPlay = false;
+        let isUnlocked = false;
 
-        async function start() {
+        async function initApp() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    p => loadTimes(p.coords.latitude, p.coords.longitude),
-                    () => loadTimes(21.42, 39.82) // Fallback to Mecca
+                    pos => fetchTimes(pos.coords.latitude, pos.coords.longitude),
+                    () => fetchTimes(21.4225, 39.8262) // مكة المكرمة كخيار احتياطي
                 );
             }
         }
 
-        async function loadTimes(lat, lng) {
-            const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
+        async function fetchTimes(lat, lng) {
+            const method = document.getElementById('method-select').value;
+            document.getElementById('loc-info').innerText = `الموقع: ${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+            const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=${method}`);
             const data = await res.json();
             prayers = data.data.timings;
-            document.getElementById('date').innerText = data.data.date.readable;
-            displayUI();
+            document.getElementById('date').innerText = data.data.date.readable + " | " + data.data.date.hijri.day + " " + data.data.date.hijri.month.ar;
+            renderUI();
         }
 
-        function displayUI() {
-            const names = {
-                'Fajr': 'الفجر', 'Dhuhr': 'الظهر', 'Asr': 'العصر', 
-                'Maghrib': 'المغرب', 'Isha': 'العشاء'
-            };
-            const container = document.getElementById('list');
+        function renderUI() {
+            const listNames = { 'Fajr':'الفجر', 'Dhuhr':'الظهر', 'Asr':'العصر', 'Maghrib':'المغرب', 'Isha':'العشاء' };
+            const container = document.getElementById('prayer-list');
             container.innerHTML = '';
-            ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
+            Object.keys(listNames).forEach(p => {
                 container.innerHTML += `
-                    <div class="prayer-item" id="p-${p}">
-                        <div class="p-name">${names[p]} <span>${p}</span></div>
-                        <div style="color:var(--gold); font-weight:bold;">${prayers[p]}</div>
+                    <div class="prayer-row" id="row-${p}">
+                        <div class="p-name">${listNames[p]} <span>${p}</span></div>
+                        <div style="color:var(--gold); font-weight:bold; font-size:1.2rem;">${prayers[p]}</div>
                     </div>
                 `;
             });
         }
 
         function unlockAudio() {
-            athan.src = document.getElementById('moazin').value;
-            athan.play().then(() => {
-                athan.pause();
-                canPlay = true;
-                document.getElementById('status').innerText = "✅ النظام يعمل تلقائياً | Auto-Athan Ready";
-            });
+            if(!isUnlocked) {
+                audio.src = document.getElementById('voice-select').value;
+                audio.play().then(() => {
+                    audio.pause();
+                    isUnlocked = true;
+                    document.getElementById('status').innerText = "✅ النظام يعمل تلقائياً";
+                    document.getElementById('btn-act').style.display = 'none';
+                });
+            }
         }
 
-        function sync() {
+        function updateAudioSource() {
+            audio.src = document.getElementById('voice-select').value;
+            audio.load();
+        }
+
+        function checkTime() {
             const now = new Date();
-            const nowTime = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
             document.getElementById('time').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
 
             ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
-                if (prayers[p] === nowTime && canPlay) {
-                    athan.play();
-                    canPlay = false; // Block repeat
-                    setTimeout(() => canPlay = true, 61000);
+                const el = document.getElementById(`row-${p}`);
+                if (prayers[p] === timeStr) {
+                    if (isUnlocked) {
+                        audio.play().catch(() => {});
+                        isUnlocked = false; 
+                        setTimeout(() => isUnlocked = true, 61000);
+                    }
+                    if(el) el.classList.add('active-prayer');
+                } else {
+                    if(el) el.classList.remove('active-prayer');
                 }
-                // Update active highlight
-                const el = document.getElementById(`p-${p}`);
-                if (prayers[p] === nowTime) el.classList.add('active');
-                else if (el) el.classList.remove('active');
             });
         }
 
-        setInterval(sync, 1000);
-        window.onload = start;
+        setInterval(checkTime, 1000);
+        window.onload = initApp;
     </script>
 </body>
 </html>
