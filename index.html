@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TowMes©™ - Professional Athan System</title>
+    <title>TowMes®™ - Professional Athan</title>
     
     <style>
-        /* --- نَفْسُ التَّصْمِيمِ الحَالِيِّ مَعَ تَحْسِيناتِ المَسَاحَةِ --- */
+        /* --- الأساسيات ونظام التمرير --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         html, body {
@@ -16,98 +16,110 @@
             font-family: 'Segoe UI', Tahoma, sans-serif;
         }
 
+        body::-webkit-scrollbar { width: 4px; }
+        body::-webkit-scrollbar-thumb { background: #ff0000; border-radius: 10px; }
+
         body {
             display: flex; flex-direction: column; align-items: center;
             background: radial-gradient(circle at center, #1a202c 0%, #050505 100%);
-            min-height: 100vh; padding: 20px 0;
+            min-height: 100vh; padding: 15px 0;
             position: relative;
         }
 
+        /* --- الخلفية الثابتة --- */
         .bg-fixed { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .cloud { position: absolute; width: 200px; opacity: 0.1; animation: moveClouds linear infinite; }
+        .cloud { position: absolute; width: 180px; opacity: 0.08; animation: moveClouds linear infinite; }
         @keyframes moveClouds { from { left: -250px; } to { left: 110vw; } }
-        
-        .moon-icon { position: fixed; top: 20px; left: 20px; width: 50px; filter: drop-shadow(0 0 10px #fbbf24); z-index: 2; }
-        .kaaba-img { position: fixed; bottom: -5px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px; opacity: 0.12; z-index: 1; }
+        .moon-icon { position: fixed; top: 15px; left: 15px; width: 45px; filter: drop-shadow(0 0 8px #fbbf24); z-index: 2; }
+        .kaaba-img { position: fixed; bottom: -5px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 480px; opacity: 0.1; z-index: 1; }
 
+        /* --- واجهة التطبيق --- */
         .main-card {
             position: relative; z-index: 10;
-            width: 90%; max-width: 420px;
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border-radius: 40px; padding: 1.8rem 1.5rem;
-            border: 2px solid rgba(255, 0, 0, 0.5); 
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-            text-align: center; margin-bottom: 30px;
+            width: 92%; max-width: 400px;
+            background: rgba(10, 10, 10, 0.88);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 35px; padding: 1.5rem 1.2rem;
+            border: 2px solid rgba(255, 0, 0, 0.4); 
+            box-shadow: 0 35px 70px rgba(0,0,0,0.8);
+            text-align: center; margin-bottom: 20px;
         }
 
         .brand-name {
-            font-size: 2rem; font-weight: 900;
-            color: #ff0000; letter-spacing: 2px; margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            font-size: 1.8rem; font-weight: 900;
+            color: #ff0000; letter-spacing: 2px; margin-bottom: 8px;
+            text-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
         }
 
-        .clock-box { background: rgba(255, 0, 0, 0.05); border-radius: 20px; padding: 10px; margin-bottom: 15px; }
-        .digital-clock { font-size: 2.8rem; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; }
-        .date-txt { color: #ff4d4d; font-size: 0.9rem; font-weight: bold; }
+        .clock-box { background: rgba(255, 0, 0, 0.05); border-radius: 18px; padding: 10px; margin-bottom: 12px; }
+        .digital-clock { font-size: 2.6rem; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; }
+        .date-txt { color: #ff3333; font-size: 0.85rem; font-weight: bold; }
 
-        .prayer-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .prayer-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
         .prayer-row {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 18px; background: rgba(255, 255, 255, 0.04);
-            border-radius: 15px; border: 1px solid rgba(255, 0, 0, 0.1);
+            padding: 10px 16px; background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px; border: 1px solid rgba(255, 0, 0, 0.1);
         }
-        .active-row { background: rgba(255, 0, 0, 0.2); border-color: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
-        .p-ar { font-size: 1.1rem; font-weight: 800; color: #ff0000; }
-        .p-time { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .active-row { background: rgba(255, 0, 0, 0.18); border-color: #ff0000; box-shadow: 0 0 12px rgba(255, 0, 0, 0.25); }
+        
+        .p-label-group { text-align: right; }
+        .p-ar { font-size: 1.1rem; font-weight: 800; color: #ff0000; line-height: 1.2; }
+        .p-en { font-size: 0.65rem; color: #777; text-transform: uppercase; font-weight: bold; display: block; }
+        .p-time { font-size: 1.2rem; font-weight: 700; color: #fff; }
 
-        .ui-section { display: flex; flex-direction: column; gap: 10px; }
+        .ui-section { display: flex; flex-direction: column; gap: 8px; }
         
         select {
-            width: 100%; padding: 12px; border-radius: 12px;
+            width: 100%; padding: 10px; border-radius: 10px;
             background: #111; color: #ff0000; border: 1px solid #ff0000;
-            font-size: 0.9rem; font-weight: bold; outline: none; text-align: center;
+            font-size: 0.85rem; font-weight: bold; outline: none; text-align: center;
         }
 
         .btn-start {
-            width: 100%; padding: 16px; border-radius: 15px; border: none;
-            background: linear-gradient(135deg, #ff0000, #900000);
-            color: #fff; font-size: 1.1rem; font-weight: 900; cursor: pointer;
+            width: 100%; padding: 14px; border-radius: 12px; border: none;
+            background: linear-gradient(135deg, #ff0000, #800000);
+            color: #fff; font-size: 1rem; font-weight: 900; cursor: pointer;
         }
 
-        .sys-status { font-size: 0.75rem; color: #666; margin-top: 10px; }
-        .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #333; margin-left: 5px; }
-        .dot.active { background: #00ff00; box-shadow: 0 0 8px #00ff00; }
+        .footer-brand {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: rgba(255, 0, 0, 0.7);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .sys-status { font-size: 0.7rem; color: #444; margin-top: 8px; display: flex; align-items: center; justify-content: center; }
+        .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #222; margin-left: 5px; }
+        .dot.active { background: #ff0000; box-shadow: 0 0 6px #ff0000; }
     </style>
 </head>
-<body onclick="initAll()">
+<body onclick="activate()">
 
     <div class="bg-fixed" id="cloud-container"></div>
     <img src="https://cdn-icons-png.flaticon.com/512/1823/1823330.png" class="moon-icon">
     <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba-img">
 
     <div class="main-card">
-        <div class="brand-name">TowMes©™</div>
+        <div class="brand-name">TowMes®™</div>
         
         <div class="clock-box">
             <div class="digital-clock" id="clock-view">00:00:00</div>
-            <span class="date-txt" id="date-view">بانتظار تحديد الموقع...</span>
+            <span class="date-txt" id="date-view">مزامنة البيانات...</span>
         </div>
 
-        <div class="ui-section" style="margin-bottom: 15px;">
+        <div class="ui-section" style="margin-bottom: 12px;">
             <select id="country-picker" onchange="manualLocation()">
-                <option value="AUTO">📍 تحديد تلقائي (GPS)</option>
-                <option value="SA">السعودية</option>
-                <option value="MA">المغرب</option>
-                <option value="EG">مصر</option>
-                <option value="DZ">الجزائر</option>
-                <option value="AE">الإمارات</option>
-                <option value="KW">الكويت</option>
-                <option value="QA">قطر</option>
-                <option value="JO">الأردن</option>
-                <option value="TR">تركيا</option>
-                <option value="FR">فرنسا</option>
-                <option value="ES">إسبانيا</option>
+                <option value="AUTO">📍 GPS - تحديد تلقائي</option>
+                <option value="SA">السعودية (Saudi Arabia)</option>
+                <option value="MA">المغرب (Morocco)</option>
+                <option value="EG">مصر (Egypt)</option>
+                <option value="DZ">الجزائر (Algeria)</option>
+                <option value="AE">الإمارات (UAE)</option>
+                <option value="KW">الكويت (Kuwait)</option>
+                <option value="TR">تركيا (Turkey)</option>
+                <option value="FR">فرنسا (France)</option>
             </select>
         </div>
 
@@ -119,106 +131,89 @@
                 <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">محمد صديق المنشاوي</option>
                 <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">مشاري العفاسي</option>
             </select>
-            <button class="btn-start" id="run-btn">تفعيل الأذان والإشعارات</button>
+            <button class="btn-start" id="run-btn">تفعيل الأذان</button>
         </div>
 
         <div class="sys-status">
-            TowMes©™ System: <span id="status-label">بانتظار التفعيل</span>
-            <div class="dot" id="status-dot"></div>
+            SYSTEM STATUS <div class="dot" id="status-dot"></div>
         </div>
+
+        <div class="footer-brand">TowMes®™</div>
     </div>
 
     <script>
-        let adhanPlayer = new Audio();
+        let player = new Audio();
         let timings = {};
         let isActivated = false;
-        let playedFor = "";
+        let lastPlayed = "";
 
-        // السحاب
         function makeClouds() {
             const bg = document.getElementById('cloud-container');
-            for(let i=0; i<5; i++) {
+            for(let i=0; i<4; i++) {
                 const cloud = document.createElement('img');
                 cloud.src = "https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png";
                 cloud.className = 'cloud';
-                cloud.style.top = (i * 20) + "%";
-                cloud.style.animationDuration = (35 + Math.random() * 20) + "s";
+                cloud.style.top = (i * 25) + "%";
+                cloud.style.animationDuration = (30 + Math.random() * 20) + "s";
                 bg.appendChild(cloud);
             }
         }
 
-        // الإشعارات
-        function requestNotify() {
-            if ("Notification" in window) {
-                Notification.requestPermission();
-            }
-        }
-
-        function sendNotify(prayerName) {
-            if (Notification.permission === "granted") {
-                new Notification("حان الآن موعد صلاة " + prayerName, {
-                    body: "تطبيق TowMes©™ يذكرك بالصلاة",
-                    icon: "https://cdn-icons-png.flaticon.com/512/1823/1823330.png"
-                });
-            }
-        }
-
-        // الموقع والبيانات
-        async function boot(lat = 21.42, lng = 39.82) {
+        async function loadData(lat = 21.42, lng = 39.82) {
             const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
             const data = await res.json();
             timings = data.data.timings;
             document.getElementById('date-view').innerText = data.data.date.readable;
-            renderList();
+            render();
         }
 
         function manualLocation() {
             const country = document.getElementById('country-picker').value;
             if(country === "AUTO") {
-                navigator.geolocation.getCurrentPosition(p => boot(p.coords.latitude, p.coords.longitude));
+                navigator.geolocation.getCurrentPosition(p => loadData(p.coords.latitude, p.coords.longitude));
             } else {
-                // مِحْوَرُ تَقْدِيرِيٍّ لِلدُّوَلِ (Capital Cities Fallback)
-                const coords = { 'SA':[24.71, 46.67], 'MA':[34.02, -6.83], 'EG':[30.04, 31.23], 'DZ':[36.75, 3.05], 'AE':[24.45, 54.37] };
+                const coords = { 'SA':[24.71, 46.67], 'MA':[34.02, -6.83], 'EG':[30.04, 31.23], 'DZ':[36.75, 3.05], 'AE':[24.45, 54.37], 'KW':[29.37, 47.97], 'TR':[39.93, 32.85], 'FR':[48.85, 2.35] };
                 const c = coords[country] || [21.42, 39.82];
-                boot(c[0], c[1]);
+                loadData(c[0], c[1]);
             }
         }
 
-        function renderList() {
+        function render() {
             const map = {'Fajr':'الفجر', 'Dhuhr':'الظهر', 'Asr':'العصر', 'Maghrib':'المغرب', 'Isha':'العشاء'};
             const container = document.getElementById('prayer-rows');
             container.innerHTML = '';
             Object.keys(map).forEach(key => {
                 container.innerHTML += `
                     <div class="prayer-row" id="p-${key}">
-                        <div class="p-ar">${map[key]}</div>
+                        <div class="p-label-group">
+                            <div class="p-ar">${map[key]}</div>
+                            <div class="p-en">${key}</div>
+                        </div>
                         <div class="p-time">${timings[key]}</div>
                     </div>
                 `;
             });
         }
 
-        function initAll() {
+        function activate() {
             if(!isActivated) {
                 switchVoice();
-                requestNotify();
-                adhanPlayer.play().then(() => {
-                    adhanPlayer.pause();
+                player.play().then(() => {
+                    player.pause();
                     isActivated = true;
                     document.getElementById('status-dot').classList.add('active');
-                    document.getElementById('status-label').innerText = "مفعل تماماً";
-                    document.getElementById('run-btn').innerText = "نظام TowMes©™ يعمل";
-                    document.getElementById('run-btn').style.background = "#059669";
+                    document.getElementById('run-btn').innerText = "نظام فعال";
+                    document.getElementById('run-btn').style.background = "#900000";
                 });
             }
         }
 
         function switchVoice() {
-            adhanPlayer.src = document.getElementById('voice-picker').value;
-            adhanPlayer.load();
+            player.src = document.getElementById('voice-picker').value;
+            player.load();
         }
 
-        function update() {
+        function tick() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
             document.getElementById('clock-view').innerText = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
@@ -227,10 +222,9 @@
                 const el = document.getElementById(`p-${p}`);
                 if(timings[p] === timeStr) {
                     if(el) el.classList.add('active-row');
-                    if(isActivated && playedFor !== p) {
-                        adhanPlayer.play();
-                        sendNotify(document.querySelector(`#p-${p} .p-ar`).innerText);
-                        playedFor = p;
+                    if(isActivated && lastPlayed !== p) {
+                        player.play();
+                        lastPlayed = p;
                     }
                 } else { if(el) el.classList.remove('active-row'); }
             });
@@ -239,9 +233,9 @@
         window.onload = () => {
             makeClouds();
             if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(p => boot(p.coords.latitude, p.coords.longitude), () => boot());
-            } else { boot(); }
-            setInterval(update, 1000);
+                navigator.geolocation.getCurrentPosition(p => loadData(p.coords.latitude, p.coords.longitude), () => loadData());
+            } else { loadData(); }
+            setInterval(tick, 1000);
         };
     </script>
 </body>
