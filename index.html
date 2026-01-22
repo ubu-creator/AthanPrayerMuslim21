@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TowMes®™ Professional Athan System</title>
+    <title>TowMes®™ Professional Athan System - Azraq2</title>
     <style>
         :root {
             --primary-red: #ff0000;
-            --active-green: #00ff44; /* الأخضر للزر النشط */
+            --active-green: #00ff44;
             --dark-bg: #050505;
             --glass-bg: rgba(15, 15, 15, 0.95);
             --border-red: rgba(255, 0, 0, 0.45);
@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* الشريط المتحرك */
         .marquee-box {
             width: 100%; background: rgba(255, 0, 0, 0.1);
             border-bottom: 1px solid var(--border-red);
@@ -36,20 +35,27 @@
             text-align: center; margin-top: 15px; box-shadow: 0 40px 100px rgba(0,0,0,0.9);
         }
 
-        /* تصغير العناوين */
         .brand-title {
             font-size: 1.3rem; font-weight: 900; color: var(--primary-red);
             letter-spacing: 2px; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
             margin-bottom: 5px;
         }
 
-        /* تصغير الساعة */
         .clock-container { margin-bottom: 15px; }
         .main-time {
             font-size: 2.2rem; font-weight: 900; color: #ffffff;
             font-variant-numeric: tabular-nums; line-height: 1;
         }
-        .hijri-txt { color: var(--primary-red); font-size: 0.9rem; font-weight: bold; }
+        
+        /* Date Styling */
+        .date-container {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .hijri-txt { color: var(--primary-red); font-size: 1rem; font-weight: bold; }
+        .gregorian-txt { color: #aaa; font-size: 0.9rem; font-weight: 500; }
 
         .prayer-card {
             display: flex; justify-content: space-between; align-items: center;
@@ -61,7 +67,6 @@
             transform: scale(1.02);
         }
 
-        /* أزرار التحكم */
         .custom-select {
             width: 100%; padding: 12px; border-radius: 12px;
             background: #000; color: #fff; border: 1px solid var(--primary-red);
@@ -70,13 +75,12 @@
 
         .action-button {
             width: 100%; padding: 16px; border-radius: 20px; border: none;
-            background: var(--primary-red); /* أحمر (غير نشط) */
+            background: var(--primary-red);
             color: #fff; font-size: 1.1rem; font-weight: 900;
-            cursor: pointer; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer; transition: 0.4s;
             box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
         }
 
-        /* حالة الزر النشط (أخضر) */
         .btn-active {
             background: var(--active-green) !important;
             color: #000 !important;
@@ -90,17 +94,20 @@
 <body onclick="startupSystem()">
 
     <div class="marquee-box">
-        <marquee behavior="scroll" direction="right">نداء الصلاة حسب التوقيت المحلي • نظام TowMes®™ الموثوق</marquee>
+        <marquee behavior="scroll" direction="right">نداء الصلاة حسب التوقيت المحلي • نظام TowMes®™ الموثوق • ناصر الكود • Yimieh important lesson 1</marquee>
     </div>
 
     <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba-bg">
 
     <div class="main-card">
-        <h1 class="brand-title">TowMes®™</h1>
+        <h1 class="brand-title">TowMes®™ - Azraq2</h1>
         
         <div class="clock-container">
             <div class="main-time" id="live-clock">00:00:00</div>
-            <div id="hijri-display" class="hijri-txt">جاري المزامنة...</div>
+            <div class="date-container">
+                <div id="hijri-display" class="hijri-txt">جاري المزامنة...</div>
+                <div id="gregorian-display" class="gregorian-txt">-- / -- / ----</div>
+            </div>
         </div>
 
         <select id="country-selector" class="custom-select" onchange="changeRegion()">
@@ -111,14 +118,16 @@
             <option value="TR">الجمهورية التركية</option>
         </select>
 
-        <div id="prayer-container" style="margin-bottom: 15px;"></div>
-
         <select id="moazin-picker" class="custom-select" onchange="loadVoice()">
             <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">الشيخ عبد الباسط عبد الصمد</option>
             <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">الشيخ محمد صديق المنشاوي</option>
             <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">الشيخ مشاري راشد العفاسي</option>
             <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">الشيخ سعد الغامدي</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan20.mp3">أذان مكة المكرمة</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan2.mp3">الشيخ محمود خليل الحصري</option>
         </select>
+
+        <div id="prayer-container" style="margin-bottom: 15px;"></div>
 
         <button class="action-button" id="master-btn">تفعيل نظام الأذان</button>
 
@@ -136,9 +145,17 @@
                 const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
                 const result = await res.json();
                 apiData = result.data.timings;
-                document.getElementById('hijri-display').innerText = result.data.date.hijri.day + ' ' + result.data.date.hijri.month.ar + ' ' + result.data.date.hijri.year + ' هـ';
+                
+                // Set Hijri Date
+                const h = result.data.date.hijri;
+                document.getElementById('hijri-display').innerText = `${h.day} ${h.month.ar} ${h.year} هـ`;
+                
+                // Set Gregorian Date
+                const g = result.data.date.gregorian;
+                document.getElementById('gregorian-display').innerText = `${g.day} ${g.month.en} ${g.year} م`;
+                
                 renderPrayers();
-            } catch(e) { console.log("Error fetching data"); }
+            } catch(e) { console.error("Data fetch failed"); }
         }
 
         function renderPrayers() {
@@ -166,8 +183,8 @@
                     adhanAudio.pause();
                     isLive = true;
                     const btn = document.getElementById('master-btn');
-                    btn.innerText = "نظام TowMes®™ نَشِط";
-                    btn.classList.add('btn-active'); // يتحول للأخضر
+                    btn.innerText = "نظام Azraq2 نَشِط";
+                    btn.classList.add('btn-active');
                 });
             }
         }
@@ -188,18 +205,20 @@
             const currentStr = `${h}:${m}`;
             document.getElementById('live-clock').innerText = `${h}:${m}:${s}`;
 
-            ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
-                if(apiData[p] === currentStr) {
-                    document.getElementById(`card-${p}`).classList.add('active');
-                    if(isLive && lastTrigger !== p) {
-                        adhanAudio.play();
-                        lastTrigger = p;
+            if(apiData) {
+                ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
+                    if(apiData[p] === currentStr) {
+                        document.getElementById(`card-${p}`).classList.add('active');
+                        if(isLive && lastTrigger !== p) {
+                            adhanAudio.play();
+                            lastTrigger = p;
+                        }
+                    } else {
+                        if(document.getElementById(`card-${p}`)) 
+                            document.getElementById(`card-${p}`).classList.remove('active');
                     }
-                } else {
-                    if(document.getElementById(`card-${p}`)) 
-                        document.getElementById(`card-${p}`).classList.remove('active');
-                }
-            });
+                });
+            }
         }, 1000);
 
         window.onload = () => fetchTimings();
