@@ -5,358 +5,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TowMes®™ Professional Athan System</title>
     <style>
-        /* --- المبادئ التصميمية العميقة --- */
         :root {
-            --primary-red: #ff0000;
+            --primary-red: #cc0000;
+            --active-green: #00ff44;
             --dark-bg: #050505;
-            --glass-bg: rgba(15, 15, 15, 0.92);
-            --border-red: rgba(255, 0, 0, 0.45);
+            --glass-bg: rgba(15, 15, 15, 0.95);
+            --border-red: rgba(204, 0, 0, 0.4);
         }
 
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        html, body {
-            width: 100%; height: 100%;
-            overflow-x: hidden; overflow-y: auto;
-            background-color: var(--dark-bg);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: #ffffff;
-        }
-
-        /* شريط التمرير الاحترافي */
-        body::-webkit-scrollbar { width: 6px; }
-        body::-webkit-scrollbar-track { background: #000; }
-        body::-webkit-scrollbar-thumb { 
-            background: var(--primary-red); 
-            border-radius: 10px;
-        }
-
         body {
-            display: flex; flex-direction: column; align-items: center;
             background: radial-gradient(circle at 50% 50%, #1c2535 0%, #050505 100%);
-            min-height: 100vh; padding: 20px 0;
-            position: relative;
+            color: #ffffff; font-family: 'Segoe UI', Tahoma, sans-serif;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* --- تأثيرات الخلفية المتحركة --- */
-        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        
-        .star {
-            position: absolute; background: white; border-radius: 50%;
-            opacity: 0.5; animation: twinkle var(--d) infinite;
-        }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-        .cloud { 
-            position: absolute; width: 200px; opacity: 0.07; 
-            filter: blur(1px); animation: moveClouds linear infinite; 
-        }
-        @keyframes moveClouds { from { left: -300px; } to { left: 110vw; } }
-
-        .moon-fixed { 
-            position: fixed; top: 25px; left: 25px; width: 55px; 
-            filter: drop-shadow(0 0 15px #fbbf24); z-index: 5; opacity: 0.8;
+        /* شريط متحرك صغير */
+        .marquee-container {
+            width: 100%; background: rgba(0, 0, 0, 0.6);
+            color: #fff; padding: 5px 0; font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-red); z-index: 100;
         }
 
-        .kaaba-fixed { 
-            position: fixed; bottom: -10px; left: 50%; transform: translateX(-50%); 
-            width: 100%; max-width: 550px; opacity: 0.12; z-index: 2; 
-        }
-
-        /* --- الكارت الرئيسي (TowMes UI) --- */
         .main-card {
-            position: relative; z-index: 20;
-            width: 90%; max-width: 440px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border-radius: 45px; padding: 2rem 1.8rem;
-            border: 2px solid var(--border-red); 
-            box-shadow: 0 50px 100px rgba(0,0,0,0.95), 0 0 20px rgba(255, 0, 0, 0.1);
-            text-align: center; margin-bottom: 40px;
-            transition: transform 0.3s ease;
+            position: relative; z-index: 20; width: 90%; max-width: 400px;
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            border-radius: 35px; padding: 1.5rem; border: 1.5px solid var(--border-red);
+            text-align: center; margin-top: 20px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
         }
 
-        .header-section { margin-bottom: 20px; }
+        /* تصغير العناوين */
         .brand-title {
-            font-size: 2.2rem; font-weight: 900;
-            color: var(--primary-red); letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-            display: inline-block;
+            font-size: 1.4rem; font-weight: 800; color: var(--primary-red);
+            letter-spacing: 2px; text-shadow: 0 0 10px rgba(204, 0, 0, 0.5);
         }
 
-        /* --- قسم الساعة والتواريخ --- */
-        .clock-container {
-            background: rgba(255, 0, 0, 0.07);
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            border-radius: 30px; padding: 15px; margin-bottom: 20px;
-        }
+        /* تصغير الساعة */
         .main-time {
-            font-size: 3.2rem; font-weight: 900;
-            color: #ffffff; line-height: 1;
-            font-variant-numeric: tabular-nums;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+            font-size: 2.4rem; font-weight: 900; color: #ffffff;
+            font-variant-numeric: tabular-nums; margin: 10px 0;
         }
-        .date-info { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; }
-        .hijri-txt { color: var(--primary-red); font-size: 1.1rem; font-weight: 800; display: block; }
-        .greg-txt { color: #888; font-size: 0.85rem; font-weight: 600; margin-top: 3px; display: block; }
 
-        /* --- قائمة مواقيت الصلاة --- */
-        .prayer-wrapper { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .prayer-card {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 14px 22px; background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 12px 18px; background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px; margin-bottom: 8px; border: 1px solid rgba(255, 255, 255, 0.05);
         }
+
         .prayer-card.active {
-            background: rgba(255, 0, 0, 0.25);
-            border-color: var(--primary-red);
-            transform: scale(1.03);
-            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.3);
-        }
-        .p-names { text-align: right; display: flex; align-items: center; gap: 10px; }
-        .p-ar-name { font-size: 1.3rem; font-weight: 900; color: var(--primary-red); }
-        .p-en-name { font-size: 0.8rem; color: #999; text-transform: uppercase; letter-spacing: 1px; }
-        .p-time-val { font-size: 1.5rem; font-weight: 700; color: #fff; font-family: 'Courier New', Courier, monospace; }
-
-        /* --- أدوات التحكم --- */
-        .controls-group { display: flex; flex-direction: column; gap: 12px; }
-        
-        .custom-select {
-            width: 100%; padding: 14px; border-radius: 15px;
-            background: #000; color: var(--primary-red);
-            border: 2px solid var(--primary-red);
-            font-size: 1rem; font-weight: bold; outline: none;
-            cursor: pointer; appearance: none; text-align: center;
+            background: rgba(204, 0, 0, 0.2); border-color: var(--primary-red);
         }
 
+        /* أزرار التحكم المتغيرة */
         .action-button {
-            width: 100%; padding: 18px; border-radius: 20px; border: none;
-            background: linear-gradient(135deg, #ff0000 0%, #7a0000 100%);
-            color: #fff; font-size: 1.2rem; font-weight: 900;
-            cursor: pointer; box-shadow: 0 15px 30px rgba(255, 0, 0, 0.4);
-            transition: 0.3s;
+            width: 100%; padding: 15px; border-radius: 15px; border: none;
+            background: var(--primary-red); /* الافتراضي أحمر (غير نشط) */
+            color: #fff; font-size: 1.1rem; font-weight: 800;
+            cursor: pointer; transition: 0.4s; margin-top: 15px;
         }
-        .action-button:active { transform: scale(0.96); box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2); }
-
-        .system-footer {
-            margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 15px;
-        }
-        .status-badge {
-            font-size: 0.75rem; color: #555; font-weight: bold;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            text-transform: uppercase;
-        }
-        .status-indicator { width: 10px; height: 10px; border-radius: 50%; background: #222; transition: 0.5s; }
-        .status-indicator.on { background: var(--primary-red); box-shadow: 0 0 12px var(--primary-red); }
         
-        .legal-mark {
-            margin-top: 12px; font-size: 0.8rem;
-            color: rgba(255, 0, 0, 0.5); font-weight: 900;
-            letter-spacing: 2px;
+        /* كلاس الزر النشط */
+        .btn-active {
+            background: var(--active-green) !important;
+            color: #000 !important;
+            box-shadow: 0 0 20px rgba(0, 255, 68, 0.4);
         }
+
+        .custom-select {
+            width: 100%; padding: 10px; border-radius: 10px;
+            background: #000; color: #ccc; border: 1px solid #333; font-size: 0.9rem;
+        }
+
+        .legal-mark { font-size: 0.75rem; color: rgba(204, 0, 0, 0.6); margin-top: 15px; font-weight: bold; }
+        
+        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.15; }
     </style>
 </head>
 <body onclick="startupSystem()">
 
-    <div class="bg-layer" id="stars-container"></div>
-    <div class="bg-layer" id="clouds-container"></div>
-    <img src="https://cdn-icons-png.flaticon.com/512/1823/1823330.png" class="moon-fixed">
-    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba-fixed">
+    <div class="marquee-container">
+        <marquee behavior="scroll" direction="right">نداء الصلاة حسب التوقيت المحلي لمدينة المستخدم • TowMes®™ Professional System</marquee>
+    </div>
+
+    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="bg-layer" style="object-fit: contain;">
 
     <div class="main-card">
-        <div class="header-section">
-            <h1 class="brand-title">TowMes®™</h1>
-        </div>
+        <h1 class="brand-title">TowMes®™</h1>
         
-        <div class="clock-container">
-            <div class="main-time" id="live-clock">00:00:00</div>
-            <div class="date-info">
-                <span class="hijri-txt" id="hijri-display">جاري الربط...</span>
-                <span class="greg-txt" id="greg-display">جاري المزامنة...</span>
-            </div>
+        <div class="main-time" id="live-clock">00:00:00</div>
+        
+        <div style="margin-bottom: 15px; font-size: 0.9rem;">
+            <div id="hijri-display" style="color: var(--primary-red);">جاري المزامنة...</div>
         </div>
 
-        <div class="controls-group" style="margin-bottom: 20px;">
-            <select id="country-selector" class="custom-select" onchange="changeRegion()">
-                <option value="AUTO">🛰️ تحديد الموقع تلقائياً</option>
-                <option value="SA">المملكة العربية السعودية</option>
-                <option value="MA">المملكة المغربية</option>
-                <option value="EG">جمهورية مصر العربية</option>
-                <option value="DZ">الجمهورية الجزائرية</option>
-                <option value="AE">الإمارات العربية المتحدة</option>
-                <option value="KW">دولة الكويت</option>
-                <option value="QA">دولة قطر</option>
-                <option value="JO">المملكة الأردنية</option>
-                <option value="TR">الجمهورية التركية</option>
-            </select>
-        </div>
+        <select id="country-selector" class="custom-select" onchange="changeRegion()" style="margin-bottom: 10px;">
+            <option value="AUTO">🛰️ تحديد تلقائي</option>
+            <option value="SA">السعودية</option>
+            <option value="MA">المغرب</option>
+            <option value="EG">مصر</option>
+        </select>
 
-        <div class="prayer-wrapper" id="prayer-container">
-            </div>
+        <div id="prayer-container"></div>
 
-        <div class="controls-group">
-            <select id="moazin-picker" class="custom-select" onchange="loadVoice()">
-                <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">الشيخ عبد الباسط عبد الصمد</option>
-                <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">الشيخ محمد صديق المنشاوي</option>
-                <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">الشيخ مشاري راشد العفاسي</option>
-                <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">الشيخ سعد الغامدي</option>
-            </select>
-            <button class="action-button" id="master-btn">تفعيل نظام الأذان</button>
-        </div>
+        <button class="action-button" id="master-btn">نظام الأذان غير نشط</button>
 
-        <div class="system-footer">
-            <div class="status-badge">
-                System Status <div class="status-indicator" id="ind-light"></div>
-            </div>
-            <div class="legal-mark">TowMes®™</div>
-        </div>
+        <div class="legal-mark">Developed by TowMes©™</div>
     </div>
 
     <script>
-        /* --- TowMes Core Logic --- */
         let adhanAudio = new Audio();
-        let apiData = {};
         let isLive = false;
-        let lastTrigger = "";
+        let apiData = {};
 
-        // توليد النجوم والسحاب
-        function createEnvironment() {
-            const stars = document.getElementById('stars-container');
-            const clouds = document.getElementById('clouds-container');
-            
-            for(let i=0; i<40; i++) {
-                let s = document.createElement('div');
-                s.className = 'star';
-                s.style.width = Math.random() * 3 + 'px';
-                s.style.height = s.style.width;
-                s.style.top = Math.random() * 100 + '%';
-                s.style.left = Math.random() * 100 + '%';
-                s.style.setProperty('--d', (Math.random() * 3 + 2) + 's');
-                stars.appendChild(s);
-            }
-
-            for(let j=0; j<5; j++) {
-                let c = document.createElement('img');
-                c.src = "https://www.pngmart.com/files/15/Vector-Cloud-PNG-Transparent-Image.png";
-                c.className = 'cloud';
-                c.style.top = (j * 20) + '%';
-                c.style.animationDuration = (40 + Math.random() * 20) + 's';
-                c.style.animationDelay = (j * 5) + 's';
-                clouds.appendChild(c);
-            }
-        }
-
-        // جلب البيانات
         async function fetchTimings(lat = 21.42, lng = 39.82) {
-            try {
-                const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
-                const result = await response.json();
-                apiData = result.data.timings;
-                
-                // تحديث التواريخ
-                document.getElementById('hijri-display').innerText = 
-                    `${result.data.date.hijri.day} ${result.data.date.hijri.month.ar} ${result.data.date.hijri.year} هـ`;
-                document.getElementById('greg-display').innerText = result.data.date.gregorian.date;
-                
-                renderPrayers();
-            } catch (err) {
-                console.error("Connection Error");
-            }
-        }
-
-        function changeRegion() {
-            const val = document.getElementById('country-selector').value;
-            const coords = {
-                'SA':[24.71, 46.67], 'MA':[34.02, -6.83], 'EG':[30.04, 31.23], 
-                'DZ':[36.75, 3.05], 'AE':[24.45, 54.37], 'KW':[29.37, 47.97],
-                'QA':[25.28, 51.53], 'JO':[31.95, 35.91], 'TR':[39.93, 32.85]
-            };
-            if(val === "AUTO") {
-                navigator.geolocation.getCurrentPosition(p => fetchTimings(p.coords.latitude, p.coords.longitude));
-            } else {
-                fetchTimings(coords[val][0], coords[val][1]);
-            }
+            const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
+            const json = await res.json();
+            apiData = json.data.timings;
+            document.getElementById('hijri-display').innerText = json.data.date.hijri.day + ' ' + json.data.date.hijri.month.ar;
+            renderPrayers();
         }
 
         function renderPrayers() {
             const keys = { 'Fajr':'الفجر', 'Dhuhr':'الظهر', 'Asr':'العصر', 'Maghrib':'المغرب', 'Isha':'العشاء' };
             const container = document.getElementById('prayer-container');
             container.innerHTML = '';
-            
             Object.keys(keys).forEach(k => {
-                const div = document.createElement('div');
-                div.className = 'prayer-card';
-                div.id = `card-${k}`;
-                div.innerHTML = `
-                    <div class="p-names">
-                        <span class="p-ar-name">${keys[k]}</span>
-                        <span class="p-en-name">${k}</span>
-                    </div>
-                    <div class="p-time-val">${apiData[k]}</div>
-                `;
-                container.appendChild(div);
+                container.innerHTML += `
+                    <div class="prayer-card" id="card-${k}">
+                        <span style="font-weight:bold">${keys[k]}</span>
+                        <span style="font-family:monospace">${apiData[k]}</span>
+                    </div>`;
             });
         }
 
         function startupSystem() {
             if(!isLive) {
-                loadVoice();
+                adhanAudio.src = "https://www.islamcan.com/audio/adhan/azan1.mp3";
                 adhanAudio.play().then(() => {
                     adhanAudio.pause();
                     isLive = true;
-                    document.getElementById('ind-light').classList.add('on');
-                    document.getElementById('master-btn').innerText = "نظام TowMes®™ نَشِط";
-                    // طلب إشعارات
-                    if("Notification" in window) Notification.requestPermission();
+                    const btn = document.getElementById('master-btn');
+                    btn.innerText = "نظام الأذان نَشِط";
+                    btn.classList.add('btn-active'); // تغيير للون الأخضر
                 });
             }
         }
 
-        function loadVoice() {
-            adhanAudio.src = document.getElementById('moazin-picker').value;
-            adhanAudio.load();
-        }
-
-        function processTick() {
+        setInterval(() => {
             const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            const currentStr = `${h}:${m}`;
+            const timeStr = now.toTimeString().split(' ')[0];
+            document.getElementById('live-clock').innerText = timeStr;
             
-            document.getElementById('live-clock').innerText = `${h}:${m}:${s}`;
-
-            const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-            prayers.forEach(p => {
-                const card = document.getElementById(`card-${p}`);
-                if(apiData[p] === currentStr) {
-                    if(card) card.classList.add('active');
-                    if(isLive && lastTrigger !== p) {
-                        adhanAudio.play();
-                        if(Notification.permission === "granted") {
-                            new Notification("TowMes®™: حان وقت الصلاة", { body: `موعد صلاة ${p}` });
-                        }
-                        lastTrigger = p;
-                    }
-                } else {
-                    if(card) card.classList.remove('active');
+            // تمييز الصلاة القادمة (بسيط)
+            const currentHM = timeStr.substring(0, 5);
+            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
+                if(apiData[p] === currentHM) {
+                    document.getElementById(`card-${p}`).classList.add('active');
                 }
             });
-            if(currentStr === "00:00") lastTrigger = "";
-        }
+        }, 1000);
 
-        window.onload = () => {
-            createEnvironment();
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(p => fetchTimings(p.coords.latitude, p.coords.longitude), () => fetchTimings());
-            } else { fetchTimings(); }
-            setInterval(processTick, 1000);
-        };
+        window.onload = () => fetchTimings();
     </script>
 </body>
 </html>
