@@ -6,11 +6,11 @@
     <title>TowMes®™ Professional Athan System</title>
     <style>
         :root {
-            --primary-red: #cc0000;
-            --active-green: #00ff44;
+            --primary-red: #ff0000;
+            --active-green: #00ff44; /* الأخضر للزر النشط */
             --dark-bg: #050505;
             --glass-bg: rgba(15, 15, 15, 0.95);
-            --border-red: rgba(204, 0, 0, 0.4);
+            --border-red: rgba(255, 0, 0, 0.45);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -19,96 +19,108 @@
             background: radial-gradient(circle at 50% 50%, #1c2535 0%, #050505 100%);
             color: #ffffff; font-family: 'Segoe UI', Tahoma, sans-serif;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* شريط متحرك صغير */
-        .marquee-container {
-            width: 100%; background: rgba(0, 0, 0, 0.6);
-            color: #fff; padding: 5px 0; font-size: 0.85rem;
-            border-bottom: 1px solid var(--border-red); z-index: 100;
+        /* الشريط المتحرك */
+        .marquee-box {
+            width: 100%; background: rgba(255, 0, 0, 0.1);
+            border-bottom: 1px solid var(--border-red);
+            padding: 5px 0; font-size: 0.8rem; color: #fff;
         }
 
         .main-card {
-            position: relative; z-index: 20; width: 90%; max-width: 400px;
-            background: var(--glass-bg); backdrop-filter: blur(20px);
-            border-radius: 35px; padding: 1.5rem; border: 1.5px solid var(--border-red);
-            text-align: center; margin-top: 20px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+            position: relative; z-index: 20; width: 92%; max-width: 420px;
+            background: var(--glass-bg); backdrop-filter: blur(25px);
+            border-radius: 40px; padding: 1.5rem; border: 2px solid var(--border-red);
+            text-align: center; margin-top: 15px; box-shadow: 0 40px 100px rgba(0,0,0,0.9);
         }
 
         /* تصغير العناوين */
         .brand-title {
-            font-size: 1.4rem; font-weight: 800; color: var(--primary-red);
-            letter-spacing: 2px; text-shadow: 0 0 10px rgba(204, 0, 0, 0.5);
+            font-size: 1.3rem; font-weight: 900; color: var(--primary-red);
+            letter-spacing: 2px; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            margin-bottom: 5px;
         }
 
         /* تصغير الساعة */
+        .clock-container { margin-bottom: 15px; }
         .main-time {
-            font-size: 2.4rem; font-weight: 900; color: #ffffff;
-            font-variant-numeric: tabular-nums; margin: 10px 0;
+            font-size: 2.2rem; font-weight: 900; color: #ffffff;
+            font-variant-numeric: tabular-nums; line-height: 1;
         }
+        .hijri-txt { color: var(--primary-red); font-size: 0.9rem; font-weight: bold; }
 
         .prayer-card {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 18px; background: rgba(255, 255, 255, 0.03);
+            padding: 10px 18px; background: rgba(255, 255, 255, 0.03);
             border-radius: 15px; margin-bottom: 8px; border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
         .prayer-card.active {
-            background: rgba(204, 0, 0, 0.2); border-color: var(--primary-red);
+            background: rgba(255, 0, 0, 0.2); border-color: var(--primary-red);
+            transform: scale(1.02);
         }
 
-        /* أزرار التحكم المتغيرة */
-        .action-button {
-            width: 100%; padding: 15px; border-radius: 15px; border: none;
-            background: var(--primary-red); /* الافتراضي أحمر (غير نشط) */
-            color: #fff; font-size: 1.1rem; font-weight: 800;
-            cursor: pointer; transition: 0.4s; margin-top: 15px;
+        /* أزرار التحكم */
+        .custom-select {
+            width: 100%; padding: 12px; border-radius: 12px;
+            background: #000; color: #fff; border: 1px solid var(--primary-red);
+            font-size: 0.9rem; margin-bottom: 10px; outline: none;
         }
-        
-        /* كلاس الزر النشط */
+
+        .action-button {
+            width: 100%; padding: 16px; border-radius: 20px; border: none;
+            background: var(--primary-red); /* أحمر (غير نشط) */
+            color: #fff; font-size: 1.1rem; font-weight: 900;
+            cursor: pointer; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        /* حالة الزر النشط (أخضر) */
         .btn-active {
             background: var(--active-green) !important;
             color: #000 !important;
-            box-shadow: 0 0 20px rgba(0, 255, 68, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 255, 68, 0.3) !important;
         }
 
-        .custom-select {
-            width: 100%; padding: 10px; border-radius: 10px;
-            background: #000; color: #ccc; border: 1px solid #333; font-size: 0.9rem;
-        }
-
-        .legal-mark { font-size: 0.75rem; color: rgba(204, 0, 0, 0.6); margin-top: 15px; font-weight: bold; }
-        
-        .bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.15; }
+        .legal-mark { font-size: 0.75rem; color: rgba(255, 0, 0, 0.5); margin-top: 15px; font-weight: 900; }
+        .kaaba-bg { position: fixed; bottom: 0; opacity: 0.1; width: 100%; z-index: 1; pointer-events: none; }
     </style>
 </head>
 <body onclick="startupSystem()">
 
-    <div class="marquee-container">
-        <marquee behavior="scroll" direction="right">نداء الصلاة حسب التوقيت المحلي لمدينة المستخدم • TowMes®™ Professional System</marquee>
+    <div class="marquee-box">
+        <marquee behavior="scroll" direction="right">نداء الصلاة حسب التوقيت المحلي • نظام TowMes®™ الموثوق</marquee>
     </div>
 
-    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="bg-layer" style="object-fit: contain;">
+    <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba-bg">
 
     <div class="main-card">
         <h1 class="brand-title">TowMes®™</h1>
         
-        <div class="main-time" id="live-clock">00:00:00</div>
-        
-        <div style="margin-bottom: 15px; font-size: 0.9rem;">
-            <div id="hijri-display" style="color: var(--primary-red);">جاري المزامنة...</div>
+        <div class="clock-container">
+            <div class="main-time" id="live-clock">00:00:00</div>
+            <div id="hijri-display" class="hijri-txt">جاري المزامنة...</div>
         </div>
 
-        <select id="country-selector" class="custom-select" onchange="changeRegion()" style="margin-bottom: 10px;">
-            <option value="AUTO">🛰️ تحديد تلقائي</option>
-            <option value="SA">السعودية</option>
-            <option value="MA">المغرب</option>
-            <option value="EG">مصر</option>
+        <select id="country-selector" class="custom-select" onchange="changeRegion()">
+            <option value="AUTO">🛰️ تحديد الموقع تلقائياً</option>
+            <option value="SA">المملكة العربية السعودية</option>
+            <option value="MA">المملكة المغربية</option>
+            <option value="EG">جمهورية مصر العربية</option>
+            <option value="TR">الجمهورية التركية</option>
         </select>
 
-        <div id="prayer-container"></div>
+        <div id="prayer-container" style="margin-bottom: 15px;"></div>
 
-        <button class="action-button" id="master-btn">نظام الأذان غير نشط</button>
+        <select id="moazin-picker" class="custom-select" onchange="loadVoice()">
+            <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">الشيخ عبد الباسط عبد الصمد</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">الشيخ محمد صديق المنشاوي</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">الشيخ مشاري راشد العفاسي</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">الشيخ سعد الغامدي</option>
+        </select>
+
+        <button class="action-button" id="master-btn">تفعيل نظام الأذان</button>
 
         <div class="legal-mark">Developed by TowMes©™</div>
     </div>
@@ -117,13 +129,16 @@
         let adhanAudio = new Audio();
         let isLive = false;
         let apiData = {};
+        let lastTrigger = "";
 
         async function fetchTimings(lat = 21.42, lng = 39.82) {
-            const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
-            const json = await res.json();
-            apiData = json.data.timings;
-            document.getElementById('hijri-display').innerText = json.data.date.hijri.day + ' ' + json.data.date.hijri.month.ar;
-            renderPrayers();
+            try {
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`);
+                const result = await res.json();
+                apiData = result.data.timings;
+                document.getElementById('hijri-display').innerText = result.data.date.hijri.day + ' ' + result.data.date.hijri.month.ar + ' ' + result.data.date.hijri.year + ' هـ';
+                renderPrayers();
+            } catch(e) { console.log("Error fetching data"); }
         }
 
         function renderPrayers() {
@@ -133,35 +148,56 @@
             Object.keys(keys).forEach(k => {
                 container.innerHTML += `
                     <div class="prayer-card" id="card-${k}">
-                        <span style="font-weight:bold">${keys[k]}</span>
-                        <span style="font-family:monospace">${apiData[k]}</span>
+                        <span style="font-weight:900; color:var(--primary-red)">${keys[k]}</span>
+                        <span style="font-family:monospace; font-weight:bold">${apiData[k]}</span>
                     </div>`;
             });
         }
 
+        function loadVoice() {
+            adhanAudio.src = document.getElementById('moazin-picker').value;
+            adhanAudio.load();
+        }
+
         function startupSystem() {
             if(!isLive) {
-                adhanAudio.src = "https://www.islamcan.com/audio/adhan/azan1.mp3";
+                loadVoice();
                 adhanAudio.play().then(() => {
                     adhanAudio.pause();
                     isLive = true;
                     const btn = document.getElementById('master-btn');
-                    btn.innerText = "نظام الأذان نَشِط";
-                    btn.classList.add('btn-active'); // تغيير للون الأخضر
+                    btn.innerText = "نظام TowMes®™ نَشِط";
+                    btn.classList.add('btn-active'); // يتحول للأخضر
                 });
             }
         }
 
+        function changeRegion() {
+            const val = document.getElementById('country-selector').value;
+            const coords = { 'SA':[24.71, 46.67], 'MA':[34.02, -6.83], 'EG':[30.04, 31.23], 'TR':[39.93, 32.85] };
+            if(val === "AUTO") {
+                navigator.geolocation.getCurrentPosition(p => fetchTimings(p.coords.latitude, p.coords.longitude));
+            } else { fetchTimings(coords[val][0], coords[val][1]); }
+        }
+
         setInterval(() => {
             const now = new Date();
-            const timeStr = now.toTimeString().split(' ')[0];
-            document.getElementById('live-clock').innerText = timeStr;
-            
-            // تمييز الصلاة القادمة (بسيط)
-            const currentHM = timeStr.substring(0, 5);
-            ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p => {
-                if(apiData[p] === currentHM) {
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            const currentStr = `${h}:${m}`;
+            document.getElementById('live-clock').innerText = `${h}:${m}:${s}`;
+
+            ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].forEach(p => {
+                if(apiData[p] === currentStr) {
                     document.getElementById(`card-${p}`).classList.add('active');
+                    if(isLive && lastTrigger !== p) {
+                        adhanAudio.play();
+                        lastTrigger = p;
+                    }
+                } else {
+                    if(document.getElementById(`card-${p}`)) 
+                        document.getElementById(`card-${p}`).classList.remove('active');
                 }
             });
         }, 1000);
