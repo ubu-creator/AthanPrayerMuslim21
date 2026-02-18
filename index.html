@@ -7,7 +7,7 @@
     <style>
         :root {
             --primary-red: #ff0000;
-            --active-green: #00ff44;
+            --active-green: #8FBC8F;
             --dark-bg: #050505;
             --glass-bg: rgba(15, 15, 15, 0.95);
             --border-red: rgba(255, 0, 0, 0.45);
@@ -36,9 +36,9 @@
         }
 
         .brand-title {
-            font-size: 1.3rem; font-weight: 900; color: var(--primary-red);
-            letter-spacing: 2px; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-            margin-bottom: 5px;
+            font-size: 1.0rem; font-weight: 800; color: var(--primary-red);
+            letter-spacing: 1px; text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            margin-bottom: 2px;
         }
 
         .clock-container { margin-bottom: 15px; }
@@ -48,7 +48,7 @@
         }
         
         .date-container {
-            margin-top: 8px;
+            margin-top: 7px;
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -93,13 +93,13 @@
 <body onclick="startupSystem()">
 
     <div class="marquee-box">
-        <marquee behavior="scroll" direction="right">نِدَاءُ الصٓلاة حَسبَ التوْقيتِ المَحلي GMT-+ 🌍</marquee>
+        <marquee behavior="scroll" direction="right">نِدَاءُ الصٓلاة حَسبَ التوْقيتِ المَحلي 🌍 GMT - + 🌍</marquee>
     </div>
 
     <img src="https://pngimg.com/d/kaaba_PNG10.png" class="kaaba-bg">
 
     <div class="main-card">
-        <h1 class="brand-title">TowMes®™ - M.A.M</h1>
+        <h1 class="brand-title">TowMes™ - M.A.M</h1>
         
         <div class="clock-container">
             <div class="main-time" id="live-clock">00:00:00</div>
@@ -110,48 +110,48 @@
         </div>
 
         <select id="country-selector" class="custom-select" onchange="changeRegion()">
-            <option value="AUTO">🛰️ تحديد الموقع تلقائياً</option>
+            <option value="AUTO">🛰️ تحْدِيد الموْقع الجُغرَافي تلقَائياً</option>
             <optgroup label=🏠"العرَب">
-                <option value="MA">🇲🇦المملكة المغربية</option>
-                <option value="SA">🇸🇦المملكة العربية السعودية</option>
-                <option value="EG">🇪🇬جمهورية مصر العربية</option>
-                <option value="DZ">🇩🇿الجزائر</option>
-                <option value="AE">🇦🇪الإمارات العربية المتحدة</option>
-                <option value="QA">🇶🇦قطر</option>
+                <option value="MA">🇲🇦المَملكة المَغربية</option>
+                <option value="SA">🇸🇦المَملكة العرَبية السعُودية</option>
+                <option value="EG">🇪🇬جمْهورية مِصر العَربية</option>
+                <option value="DZ">🇩🇿الجَزائر</option>
+                <option value="AE">🇦🇪الإماَرات العَربية المُتحدة</option>
+                <option value="QA">🇶🇦قَطر</option>
             </optgroup>
-            <optgroup label=🏠"أوروبا">
-                <option value="FR">🇲🇫فرنسا (باريس)</option>
-                <option value="ES">🇪🇦إسبانيا (مدريد)</option>
-                <option value="DE">🇩🇪ألمانيا (برلين)</option>
-                <option value="GB">🇬🇧المملكة المتحدة (لندن)</option>
+            <optgroup label=🏠"أرُوبا">
+                <option value="FR">🇲🇫فرنسَا (بارِيس)</option>
+                <option value="ES">🇪🇦إسبَانيا (مدْريد)</option>
+                <option value="DE">🇩🇪ألْمانيا (برلِين)</option>
+                <option value="GB">🇬🇧الممْلكة المتَحدة (لندُن)</option>
             </optgroup>
-            <optgroup label=🏠"آسيا">
-                <option value="TR">🇹🇷تركيا</option>
-                <option value="MY">🇲🇾ماليزيا</option>
-                <option value="ID">🇮🇩إندونيسيا</option>
-                <option value="JP">🇯🇵اليابان (طوكيو)</option>
+            <optgroup label=🏠"آسْيا">
+                <option value="TR">🇹🇷ترْكيا</option>
+                <option value="MY">🇲🇾مَاليزيا</option>
+                <option value="ID">🇮🇩إندُونيسيا</option>
+                <option value="JP">🇯🇵اليَابان (طُوكيو)</option>
             </optgroup>
-            <optgroup label=🏠"أمريكا">
-                <option value="US">🇺🇲الولايات المتحدة (نيويورك)</option>
-                <option value="CA">🇨🇦كندا</option>
-                <option value="BR">🇧🇷البرازيل</option>
+            <optgroup label=🏠"أمرِيكا">
+                <option value="US">🇺🇲الولَايات المتٓحدة (نيُويورك)</option>
+                <option value="CA">🇨🇦كنَدا</option>
+                <option value="BR">🇧🇷البَرازيل</option>
             </optgroup>
         </select>
 
         <select id="moazin-picker" class="custom-select" onchange="loadVoice()">
-            <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">الشيخ عبد الباسط عبد الصمد</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">الشيخ محمد صديق المنشاوي</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">الشيخ مشاري راشد العفاسي</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">الشيخ سعد الغامدي</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan20.mp3">أذان مكة المكرمة</option>
-            <option value="https://www.islamcan.com/audio/adhan/azan2.mp3">الشيخ محمود خليل الحصري</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan1.mp3">الشيْخ عبْد الباسط عبْد الصمَد🔊</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan5.mp3">الشيْخ محَمد صدِيق المنْشاوي🔊</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan3.mp3">الشيْخ مشَاري راشِد العفٓاسي🔊</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan4.mp3">الشيْخ سعْد الغامِدي🔊</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan20.mp3">أذَان مَكة المُكرمة🔊</option>
+            <option value="https://www.islamcan.com/audio/adhan/azan2.mp3">الشيْخ محمُود خَليل الحُصري🔊</option>
         </select>
 
         <div id="prayer-container" style="margin-bottom: 15px;"></div>
 
         <button class="action-button" id="master-btn">🔻تفْعيل نظامِ الأَذاَن</button>
 
-        <div class="legal-mark">Developed by TowMes©™</div>
+        <div class="legal-mark">©™Developed by TowMes</div>
     </div>
 
     <script>
@@ -177,7 +177,7 @@
         }
 
         function renderPrayers() {
-            const keys = { 'Fajr':'الفجر', 'Dhuhr':'الظهر', 'Asr':'العصر', 'Maghrib':'المغرب', 'Isha':'العشاء' };
+            const keys = { 'Fajr':'الفجْر', 'Dhuhr':'الظهْر', 'Asr':'العَصر', 'Maghrib':'المغرِب', 'Isha':'العِشاء' };
             const container = document.getElementById('prayer-container');
             container.innerHTML = '';
             Object.keys(keys).forEach(k => {
@@ -201,7 +201,7 @@
                     adhanAudio.pause();
                     isLive = true;
                     const btn = document.getElementById('master-btn');
-                    btn.innerText = "النِظامُ  نَشِط";
+                    btn.innerText = "النِظامُ نَشِط";
                     btn.classList.add('btn-active');
                 });
             }
@@ -248,5 +248,15 @@
 
         window.onload = () => fetchTimings();
     </script>
+<style>
+    /* التوازن البصري: تمييز الزر عند الوقوف عليه بالريموت */
+    :focus {
+        outline: 8px solid #00bfff !important; /* إطار أزرق Azraq2 */
+        background-color: rgba(0, 191, 255, 0.3) !important;
+        box-shadow: 0 0 20px #00bfff !important;
+        transform: scale(1.05);
+    }
+</style>
+</script>
 </body>
 </html>
